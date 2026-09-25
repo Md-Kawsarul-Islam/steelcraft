@@ -30,8 +30,13 @@ function sanitize(type: string, body: any, existing?: any) {
 export async function GET(req: Request, { params }: { params: Promise<{ type: string }> }) {
   const denied = await guard(req); if (denied) return denied;
   try { const { type } = await params; const db = await getDb(); const rows = await db.collection(table(type)).find({}).sort({ createdAt: -1 }).limit(500).toArray(); return NextResponse.json(rows.map(clean), { headers: { "Cache-Control": "no-store" } }); }
-  catch { return NextResponse.json({ message: "Unable to load data." }, { status: 500 }); }
-}
+catch (e: any) {
+  console.error("ADMIN GET ERROR:", e);
+  return NextResponse.json(
+    { message: e?.message || "Unable to load data." },
+    { status: 500 }
+  );
+}}
 
 export async function POST(req: Request, { params }: { params: Promise<{ type: string }> }) {
   const denied = await guard(req); if (denied) return denied;
