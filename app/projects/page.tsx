@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Steel Fabrication Projects", description: "Explore selected Kawsar residential and commercial fabrication projects." };
+import {getProjects} from "@/lib/data";
+import ProjectCard from "@/components/ProjectCard";
+export const dynamic = "force-dynamic";
+export default async function Projects({searchParams}:{searchParams:Promise<{category?:string}>}){ const projects=await getProjects(); const sp=await searchParams; const active=sp.category||"All"; const cats=Array.from(new Set(["All","Residential","Commercial",...projects.map(p=>p.category).filter(Boolean)])); const list=active==="All"?projects:projects.filter(p=>p.category===active); return <main className="section"><div className="container"><p style={{color:"#ca8a04",fontWeight:800}}>PORTFOLIO</p><h1>Our Projects</h1><div style={{display:"flex",gap:10,margin:"25px 0",flexWrap:"wrap"}}>{cats.map(c=><a key={c} href={c==="All"?"/projects":`/projects?category=${encodeURIComponent(c)}`} className="btn" style={{border:"1px solid #ddd"}}>{c}</a>)}</div><div className="grid-auto">{list.map(p=><ProjectCard key={p.id} p={{...p,image:p.image||p.cover_image,client:p.client||p.client_name,scope:p.scope||p.description}}/>)}</div></div></main> }

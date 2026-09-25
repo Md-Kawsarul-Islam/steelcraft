@@ -1,0 +1,3 @@
+import Image from "next/image";
+import Link from "next/link";
+export default function ProductCard({ p }: { p: any }) { const image=p.image||p.image_url; return <article className="card"><div style={{position:"relative",height:220}}><Image src={image} alt={`${p.title} — ${p.category||"steel fabrication"}`} fill sizes="(max-width:700px) 92vw, (max-width:1100px) 45vw, 280px" style={{objectFit:"cover"}} /></div><div style={{padding:20}}><small style={{color:"#6b7280"}}>{p.category}</small><h3>{p.title}</h3><p>{p.description}</p><Link href={`/products/${p.id}`} style={{fontWeight:700}}>Details →</Link></div></article>; }

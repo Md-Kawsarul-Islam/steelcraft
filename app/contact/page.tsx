@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Request a Steel Fabrication Quote", description: "Contact Kawsar in Bangladesh for custom steel and stainless-steel fabrication quotations." };
+import QuoteForm from "@/components/QuoteForm";
+export default async function Contact({searchParams}:{searchParams:Promise<{type?:string;product?:string}>}){
+ const sp=await searchParams; return <main className="section"><div className="container" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:50}}><div><p style={{color:"#ca8a04",fontWeight:800}}>CONTACT</p><h1>Request a quotation</h1><p style={{fontSize:18,lineHeight:1.7}}>Tell us what you need. We will review your requirement and contact you.</p><p><b>Phone:</b> +966530950767<br/><b>WhatsApp:</b> +966530950767<br/><b>Email:</b> info@example.com</p><a className="btn btn-dark" href="https://wa.me/966530950767?text=Hello%20I%20would%20like%20to%20get%20a%20quotation.">WhatsApp Us</a></div><QuoteForm defaultProduct={sp.product||""}/></div></main>
+}

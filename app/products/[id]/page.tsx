@@ -1,0 +1,4 @@
+import {getProducts} from "@/lib/data";
+import Link from "next/link";
+export const dynamic = "force-dynamic";
+export default async function Product({params}:{params:Promise<{id:string}>}){ const {id}=await params; const products=await getProducts(); const p=products.find(x=>x.id===id); if(!p) return <div className="section container">Product not found.</div>; const image=p.image||p.image_url; return <main className="section"><div className="container" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:40,alignItems:"center"}}><img src={image} alt={p.title} style={{width:"100%",maxHeight:550,objectFit:"cover",borderRadius:14}}/><div><p style={{color:"#ca8a04",fontWeight:800}}>{p.category}</p><h1>{p.title}</h1><p style={{fontSize:18,lineHeight:1.7}}>{p.description}</p><Link className="btn btn-primary" href={`/contact?type=quote&product=${encodeURIComponent(p.title)}`}>Get a Quote</Link></div></div></main> }

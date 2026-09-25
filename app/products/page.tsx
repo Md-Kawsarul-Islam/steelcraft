@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Steel Fabrication Products", description: "Explore Kawsar railings, shutters, gates, canopies, CNC cutting and custom metalwork products." };
+import {getProducts, fallbackCategories} from "@/lib/data";
+import ProductCard from "@/components/ProductCard";
+export const dynamic = "force-dynamic";
+export default async function Products({searchParams}:{searchParams:Promise<{category?:string}>}){ const products=await getProducts(); const sp=await searchParams; const active=sp.category||"All"; const categories=Array.from(new Set(["All", ...fallbackCategories.slice(1), ...products.map(p=>p.category).filter(Boolean)])); const list=active==="All"?products:products.filter(p=>p.category===active); return <main className="section"><div className="container"><p style={{color:"#ca8a04",fontWeight:800}}>PRODUCT CATALOG</p><h1>Our Products</h1><div style={{display:"flex",gap:10,flexWrap:"wrap",margin:"25px 0"}}>{categories.map(c=><a key={c} href={c==="All"?"/products":`/products?category=${encodeURIComponent(c)}`} className="btn" style={{border:"1px solid #ddd",background:active===c?"#111827":"#fff",color:active===c?"#fff":"#111"}}>{c}</a>)}</div><div className="grid-auto">{list.map(p=><ProductCard key={p.id} p={{...p,image:p.image||p.image_url}}/>)}</div></div></main> }

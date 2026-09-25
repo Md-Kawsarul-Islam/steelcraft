@@ -1,0 +1,4 @@
+import {getProjects} from "@/lib/data";
+import Link from "next/link";
+export const dynamic = "force-dynamic";
+export default async function Project({params}:{params:Promise<{id:string}>}){ const {id}=await params; const projects=await getProjects(); const p=projects.find(x=>x.id===id); if(!p) return <div className="section container">Project not found.</div>; const image=p.image||p.cover_image; return <main className="section"><div className="container"><img src={image} alt={p.title} style={{width:"100%",height:480,objectFit:"cover",borderRadius:14}}/><div style={{maxWidth:850,margin:"35px auto"}}><p style={{color:"#ca8a04",fontWeight:800}}>{p.category}</p><h1>{p.title}</h1><p><b>Client:</b> {p.client||p.client_name}<br/><b>Location:</b> {p.location}</p><p style={{fontSize:18,lineHeight:1.8}}>{p.scope||p.description}</p><Link className="btn btn-primary" href="/contact?type=quote">Request a Quote</Link></div></div></main> }
